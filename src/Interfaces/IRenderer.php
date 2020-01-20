@@ -1,9 +1,9 @@
 <?php
 
-namespace Gindicate\Interfaces;
+namespace Querymel\Interfaces;
 
 use Symfony\Component\Console\Output\OutputInterface;
-use Gindicate\Results\ResultCollection;
+use Querymel\Results\ResultCollection;
 
 interface IRenderer
 {
