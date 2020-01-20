@@ -16,7 +16,7 @@ use Querymel\Helpers\Query;
 *                      ->columns('ville','nom','prenom')
 *                      ->where('matricule = paris')
 *                      ->andWhere('nom = Richard')
-*                      ->join('createurs', Query::LEFT_JOIN, 'utilisateur.ville = createurs.ville')
+*                      ->leftjoin('createurs', 'utilisateur.ville = createurs.ville')
 *                      ->orderBy('prenom', Query::DESC)
 *                      ->getQuery('sql');
 */
