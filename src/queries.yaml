@@ -1,0 +1,58 @@
+#Valid XAML file tested on yamllint.com
+select :
+  table: utilisateur
+  columns:
+    - ville
+    - nom
+    - prenom
+  conditions:
+    where:
+      column: ville
+      equals: Paris
+    andwhere:
+      column: nom
+      equals: Richard
+  leftjoin:
+      table: createurs
+      on:
+        column: utilisateur.ville
+        equals: createurs.ville
+  orderby:
+    desc:
+      - prenom
+
+insert:
+  table: utilisateur
+  columns:
+    - ville
+    - nom
+    - prenom
+  dataset: #Order is important here
+    - [Paris, Smith, Julien]
+    - [Orléans, Smith, John]
+    - [Nantes, Smith, Emy]
+
+delete:
+  table: utilisateur
+  condition:
+    where:
+      column: ville
+      not: Paris
+
+drop:
+  table:
+    - utilisateur
+    - createurs
+
+update:
+  table: utilisateur
+  set:
+    column: nom
+    value: Doe
+  condition:
+    where:
+      column: ville
+      not: Paris
+    andwhere:
+      column: ville
+      not: Orléans

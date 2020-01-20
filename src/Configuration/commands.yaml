@@ -1,0 +1,4 @@
+commands:
+  namespace: 'Querymel\Commands'
+  to_load:
+    query: 'QueryCommand'

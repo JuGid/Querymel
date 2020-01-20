@@ -1,0 +1,7 @@
+database:
+  connections:
+    myDatabase:
+      type: 'mysql'
+      host: 'localhost'
+      password: 'root'
+      user: 'root'

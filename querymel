@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/src/bootstrap.php';
+
+use Symfony\Component\Console\Application;
+use Querymel\Configuration\Commands;
+use Symfony\Component\Console\Style\SymfonyStyle;
+
+$app = new Application('querymel', 'v0.0.1');
+$app->setCommandLoader(Commands::getCommandLoader());
+$app -> run();
