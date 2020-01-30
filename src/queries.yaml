@@ -9,13 +9,13 @@ select :
   conditions:
     - where:
         column: ville
-        equals: Paris
+        is: Paris
     - andwhere:
         column: nom
-        equals: Richard
-    - andwhere:
+        is: Richard
+    - orwhere:
         column: prenom
-        equals: Gidel
+        not: Gidel
   joins:
     - leftjoin:
         table: createurs
@@ -25,6 +25,11 @@ select :
   orderby:
     desc:
       - prenom
+  groupeby:
+    - ville
+  having:
+    column: nom
+    greater : 40 
 
 insert:
   table: utilisateur

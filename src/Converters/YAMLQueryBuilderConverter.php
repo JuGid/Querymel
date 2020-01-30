@@ -70,6 +70,7 @@ class YAMLQueryBuilderConverter{
         $this->createInsertRequest($yamlQuery);
         break;
       case Query::SELECT:
+        $this->createSelectRequest($yamlQuery);
         break;
       case Query::UPDATE:
         $this->createUpdateRequest($yamlQuery);
@@ -109,13 +110,7 @@ class YAMLQueryBuilderConverter{
     $table = $yamlQuery['table'];
     $qb = new QueryBuilder(Query::DELETE);
     $qb->from($table);
-    foreach($yamlQuery['conditions'] as $condition)
-    {
-      $in_condition = array_key_first($condition);
-      $column = $condition[$in_condition]['column'];
-
-      $qb->$in_condition($this->yamlToExpression($condition[$in_condition]));
-    }
+    $this->addConditions($qb, $yamlQuery['conditions']);
     $this->queryBuilders[] = $qb;
   }
 
@@ -124,19 +119,32 @@ class YAMLQueryBuilderConverter{
     $table = $yamlQuery['table'];
     $qb = new QueryBuilder(Query::UPDATE);
     $qb->from($table);
+    $this->addConditions($qb, $yamlQuery['conditions']);
+    $set_array = $yamlQuery['set'];
+    $qb->set($set_array['column'], $set_array['value']);
 
-    foreach($yamlQuery['conditions'] as $condition)
+    $this->queryBuilders[] = $qb;
+  }
+
+  private function createSelectRequest($yamlQuery)
+  {
+    $qb = new QueryBuilder(Query::SELECT);
+    $qb->from($yamlQuery['table']);
+    $qb->columns($yamlQuery['columns']);
+    $this->addConditions($qb, $yamlQuery['conditions']);
+
+    $this->queryBuilders[] = $qb;
+  }
+
+  private function addConditions($qb, $conditions)
+  {
+    foreach($conditions as $condition)
     {
       $in_condition = array_key_first($condition);
       $column = $condition[$in_condition]['column'];
 
       $qb->$in_condition($this->yamlToExpression($condition[$in_condition]));
     }
-
-    $set_array = $yamlQuery['set'];
-    $qb->set($set_array['column'], $set_array['value']);
-
-    $this->queryBuilders[] = $qb;
   }
 
   private function yamlToExpression($array)
@@ -169,7 +177,7 @@ class YAMLQueryBuilderConverter{
     }
     return $array[$column].' '.$expr.' '.$array[$value];
   }
-  
+
   private function print()
   {
     foreach($this->queryBuilders as $qb)
