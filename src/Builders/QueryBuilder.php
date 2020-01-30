@@ -124,7 +124,7 @@ class QueryBuilder{
       throw new NotAValidQuery('You can not set columns if the query is not a SELECT or INSERT.');
     }
 
-    $trueColumns = is_array($columns) ? [$columns] : func_get_args();
+    $trueColumns = is_array($columns) ? $columns : null;
 
     if(!$this->is_string($trueColumns))
     {
@@ -189,7 +189,7 @@ class QueryBuilder{
       throw new NotAValidQuery('You can not set values property if the query is not an insert.');
     }
 
-    $trueValues = is_array($values) ? [$values] : func_get_args();
+    $trueValues = is_array($values) ? $values : null;
 
     if(!$this->is_string($trueValues))
     {
@@ -363,8 +363,12 @@ class QueryBuilder{
 
   private function is_string($array)
   {
+    if($array == null) return false;
+
     foreach($array as $col){
-      if(!is_string($col)) return false;
+      if(!is_string($col)){
+        return false;
+      }
     }
     return true;
   }

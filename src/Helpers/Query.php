@@ -42,5 +42,8 @@ abstract class Query{
     return 'COUNT('.$value.')';
   }
 
+  public static function getConstantValue($constant){
+    return constant('self::'.strtoupper($constant));
+  }
 
 }

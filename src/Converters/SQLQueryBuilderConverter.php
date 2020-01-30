@@ -108,7 +108,7 @@ class SQLQueryBuilderConverter implements ISpecificQueryBuilder{
       case Query::DELETE:
         return "DELETE FROM table WHERE where;";
       case Query::DROP:
-        return "DROP TABLE table";
+        return "DROP TABLE IF EXISTS table";
     }
   }
 }

@@ -7,17 +7,21 @@ select :
     - nom
     - prenom
   conditions:
-    where:
-      column: ville
-      equals: Paris
-    andwhere:
-      column: nom
-      equals: Richard
-  leftjoin:
-      table: createurs
-      on:
-        column: utilisateur.ville
-        equals: createurs.ville
+    - where:
+        column: ville
+        equals: Paris
+    - andwhere:
+        column: nom
+        equals: Richard
+    - andwhere:
+        column: prenom
+        equals: Gidel
+  joins:
+    - leftjoin:
+        table: createurs
+        on:
+          column: utilisateur.ville
+          is: createurs.ville
   orderby:
     desc:
       - prenom
@@ -35,10 +39,13 @@ insert:
 
 delete:
   table: utilisateur
-  condition:
-    where:
-      column: ville
-      not: Paris
+  conditions:
+    - where:
+        column: ville
+        not: Paris
+    - andWhere:
+        column: ville
+        is: Orléans
 
 drop:
   table:
@@ -50,10 +57,10 @@ update:
   set:
     column: nom
     value: Doe
-  condition:
-    where:
-      column: ville
-      not: Paris
-    andwhere:
-      column: ville
-      not: Orléans
+  conditions:
+    - where:
+        column: ville
+        not: Orléans
+    - andwhere:
+        column: ville
+        is: Marseille

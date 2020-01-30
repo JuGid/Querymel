@@ -9,6 +9,8 @@ use Querymel\Managers\DatabaseManager;
 use Symfony\Component\Yaml\Yaml;
 use Querymel\Converters\YAMLQueryBuilderConverter;
 
+use Querymel\Builders\QueryBuilder;
+
 class QueryCommand extends Command
 {
 
@@ -22,13 +24,14 @@ class QueryCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-      $databaseManager = new DatabaseManager();
+      //$databaseManager = new DatabaseManager();
 
       //No database to test
       //$databaseManager->connect('myDatabase');
 
       $converter = new YAMLQueryBuilderConverter();
-      $querybuilder = $converter->getQueryBuilder($input->getArgument('filepath'));
+      $converter->setFileQuery($input->getArgument('filepath'));
+      $querybuilders = $converter->convert();
 
       //For testing
       //var_dump($querybuilder);
@@ -36,7 +39,7 @@ class QueryCommand extends Command
       //$sqlquery = $querybuilder->getSQLQuery()
       //$result = $databaseManager->query($sqlquery);
 
-      $databaseManager->disconnect();
+      //$databaseManager->disconnect();
 
       return 0;
     }
@@ -45,4 +48,5 @@ class QueryCommand extends Command
     {
       return new QueryCommand();
     }
+
 }
